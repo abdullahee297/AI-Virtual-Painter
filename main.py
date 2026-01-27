@@ -1,6 +1,7 @@
 import cv2
 import time 
 import os
+import numpy as np 
 import mediapipe as mp 
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision 
@@ -43,7 +44,10 @@ for imPath in myList:
 header = overlay[0]
 resize_header = None
 drawcolor = (0, 255, 0)
-
+brushthickness = 15
+eraserThickness = 25
+xp, yp = 0, 0
+imgCanvas = np.zeros((720, 1280, 3), np.uint8)
 
 cap = cv2.VideoCapture(0)
 
@@ -123,7 +127,7 @@ while True:
             # Making the mode Condition
             if finger[1] and finger[2]:
                 cv2.rectangle(img, (x1, y1 - 35), (x2, y2 + 35), (255, 0, 255), cv2.FILLED)
-                print("Selection Mode")
+                # print("Selection Mode")
                 # Checking for the click
                 if y1 < 125:
                     # For the first one 250 - 360
@@ -149,17 +153,29 @@ while True:
                     # For the Fifth one 
                     elif 1090 < x1 < 1250:
                         header = overlay[5]             #eraser
-                        drawcolor = (255, 255, 255)
+                        drawcolor = (0, 0, 0)
                         resize_header = None
                 cv2.rectangle(img, (x1, y1 - 35), (x2, y2 + 35), drawcolor, cv2.FILLED)
-                
+                xp, yp = x1, y1
+
             if finger[1] and not finger[2]:
-                cv2.rectangle(img, (x1, y1 - 35), (x2, y2 + 35), drawcolor, cv2.FILLED)
-                print("Drawing Mode")
+                cv2.circle(img, (x1, y1), 15, drawcolor, cv2.FILLED)
+                # print("Drawing Mode")
+                if xp == 0 and yp == 0:
+                    xp, yp = x1, y1
+
+                if drawcolor == (0, 0, 0):
+                    cv2.line(img, (xp, yp), (x1, y1), drawcolor, eraserThickness)
+                    cv2.line(imgCanvas, (xp, yp), (x1, y1), drawcolor, eraserThickness)
+                else:
+                    cv2.line(img, (xp, yp), (x1, y1), drawcolor, brushthickness)
+                    cv2.line(imgCanvas, (xp, yp), (x1, y1), drawcolor, brushthickness)
+                xp, yp = x1, y1
             
 
-    
+    img = cv2.addWeighted(img, 0.5, imgCanvas, 0.5, 0)
     cv2.imshow("AI Virtual Painter", img)
+    # cv2.imshow("Canvas", imgCanvas)
     if cv2.waitKey(1) & 0xFF == 27:
         break
 
