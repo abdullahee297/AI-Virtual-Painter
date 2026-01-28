@@ -45,7 +45,7 @@ header = overlay[0]
 resize_header = None
 drawcolor = (0, 255, 0)
 brushthickness = 15
-eraserThickness = 25
+eraserThickness = 40
 xp, yp = 0, 0
 imgCanvas = np.zeros((720, 1280, 3), np.uint8)
 
@@ -159,7 +159,7 @@ while True:
                 xp, yp = x1, y1
 
             if finger[1] and not finger[2]:
-                cv2.circle(img, (x1, y1), 15, drawcolor, cv2.FILLED)
+                cv2.circle(img, (x1, y1), 20, drawcolor, cv2.FILLED)
                 # print("Drawing Mode")
                 if xp == 0 and yp == 0:
                     xp, yp = x1, y1
