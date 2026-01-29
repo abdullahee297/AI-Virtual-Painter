@@ -32,7 +32,7 @@ HAND_CONNECTIONS = [
 
 folderPath = "header_img"               # Folder Path
 myList = os.listdir(folderPath)         # Accessing the folder
-# print(myList)                           # Show the files in the folder
+# print(myList)                         # Show the files in the folder
 overlay = []                            # Variable that store all the images
 
 # One by one import the image and save it in the array
@@ -87,10 +87,8 @@ while True:
                 lm_list.append((int(lm.x * w), int(lm.y * h)))
 
             if len(lm_list) >= 21:
-                x1, y1 = lm_list[8]             # Index finger tip c0ordinates
+                x1, y1 = lm_list[8]             # Index finger tip coordinates
                 x2, y2 = lm_list[12]            # Middle finger tip coordinates
-
-
             else:
                 continue  
             
