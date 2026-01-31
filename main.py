@@ -175,18 +175,10 @@ while True:
     imginv = cv2.cvtColor(imginv, cv2.COLOR_GRAY2BGR)
     img = cv2.bitwise_and(img, imginv)
     img = cv2.bitwise_or(img ,imgCanvas)
-
-
-    display_w, display_h = 640, 480
-
-    img_display = cv2.resize(img, (display_w, display_h))
-    canvas_display = cv2.resize(imgCanvas, (display_w, display_h))
-    inv_display = cv2.resize(imginv, (display_w, display_h))
-
     
-    cv2.imshow("AI Virtual Painter", img_display)
-    cv2.imshow("Canvas", canvas_display)
-    cv2.imshow("inv", inv_display)
+    cv2.imshow("AI Virtual Painter", img)
+    cv2.imshow("Canvas", imgCanvas)
+    cv2.imshow("inv", imginv)
     # cv2.imshow("Canvas", imgCanvas)
     if cv2.waitKey(1) & 0xFF == 27:
         break
