@@ -177,8 +177,8 @@ while True:
     img = cv2.bitwise_or(img ,imgCanvas)
     
     cv2.imshow("AI Virtual Painter", img)
-    cv2.imshow("Canvas", imgCanvas)
-    cv2.imshow("inv", imginv)
+    # cv2.imshow("Canvas", imgCanvas)
+    # cv2.imshow("inv", imginv)
     # cv2.imshow("Canvas", imgCanvas)
     if cv2.waitKey(1) & 0xFF == 27:
         break
