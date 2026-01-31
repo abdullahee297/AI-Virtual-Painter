@@ -45,7 +45,7 @@ header = overlay[0]
 resize_header = None
 drawcolor = (0, 255, 0)
 brushthickness = 15
-eraserThickness = 40
+eraserThickness = 100
 xp, yp = 0, 0
 imgCanvas = np.zeros((720, 1280, 3), np.uint8)
 
@@ -170,9 +170,23 @@ while True:
                     cv2.line(imgCanvas, (xp, yp), (x1, y1), drawcolor, brushthickness)
                 xp, yp = x1, y1
             
+    imggrey = cv2.cvtColor(imgCanvas, cv2.COLOR_BGR2GRAY)
+    _ , imginv = cv2.threshold(imggrey, 20, 255, cv2.THRESH_BINARY_INV)
+    imginv = cv2.cvtColor(imginv, cv2.COLOR_GRAY2BGR)
+    img = cv2.bitwise_and(img, imginv)
+    img = cv2.bitwise_or(img ,imgCanvas)
 
-    img = cv2.addWeighted(img, 0.5, imgCanvas, 0.5, 0)
-    cv2.imshow("AI Virtual Painter", img)
+
+    display_w, display_h = 640, 480
+
+    img_display = cv2.resize(img, (display_w, display_h))
+    canvas_display = cv2.resize(imgCanvas, (display_w, display_h))
+    inv_display = cv2.resize(imginv, (display_w, display_h))
+
+    
+    cv2.imshow("AI Virtual Painter", img_display)
+    cv2.imshow("Canvas", canvas_display)
+    cv2.imshow("inv", inv_display)
     # cv2.imshow("Canvas", imgCanvas)
     if cv2.waitKey(1) & 0xFF == 27:
         break
